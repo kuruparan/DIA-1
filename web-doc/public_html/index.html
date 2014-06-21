@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Welcome to DIA</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom CSS -->
+    <link href="css/grayscale.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/bootstrap/img/favicon.ico">
+    <link rel="apple-touch-icon" href="/bootstrap/img/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/bootstrap/img/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/bootstrap/img/apple-touch-icon-114x114.png">
+
+
+
+    <style type="text/css">
+        /* BOOTSTRAP 3.x GLOBAL STYLES
+-------------------------------------------------- */
+        body {
+            padding-bottom: 40px;
+            color: #5a5a5a;
+        }
+
+        .TextWrapLeft{
+            float:left;
+            margin:10px;
+
+        }
+        .TextWrapRight{
+            float:right;
+            margin:10px;
+
+        }
+
+        /* CUSTOMIZE THE NAVBAR
+        -------------------------------------------------- */
+
+        /* Special class on .container surrounding .navbar, used for positioning it into place. */
+        .navbar-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+        }
+
+
+
+        /* CUSTOMIZE THE CAROUSEL
+        -------------------------------------------------- */
+
+        /* Carousel base class */
+        .carousel {
+            margin-bottom: 60px;
+        }
+        /* Since positioning the image, we need to help out the caption */
+        .carousel-caption {
+            z-index: 1;
+        }
+
+        /* Declare heights because of positioning of img element */
+        .carousel .item {
+            height: 600px;
+            background-color:#555;
+        }
+        .carousel img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            min-height: 600px;
+        }
+
+
+
+        /* MARKETING CONTENT
+        -------------------------------------------------- */
+
+        /* Pad the edges of the mobile views a bit */
+        .marketing {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        /* Center align the text within the three columns below the carousel */
+        .marketing .col-lg-4 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .marketing h2 {
+            font-weight: normal;
+        }
+        .marketing .col-lg-4 p {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+
+        /* Featurettes
+        ------------------------- */
+
+        .featurette-divider {
+            margin: 80px 0; /* Space out the Bootstrap <hr> more */
+        }
+        .featurette {
+            padding-top: 120px; /* Vertically center images part 1: add padding above and below text. */
+            overflow: hidden; /* Vertically center images part 2: clear their floats. */
+        }
+        .featurette-image {
+            margin-top: -120px; /* Vertically center images part 3: negative margin up the image the same amount of the padding to center it. */
+        }
+
+        /* Give some space on the sides of the floated elements so text doesn't run right into it. */
+        .featurette-image.pull-left {
+            margin-right: 40px;
+        }
+        .featurette-image.pull-right {
+            margin-left: 40px;
+        }
+
+        /* Thin out the marketing headings */
+        .featurette-heading {
+            font-size: 50px;
+            font-weight: 300;
+            line-height: 1;
+            letter-spacing: -1px;
+        }
+
+
+
+        /* RESPONSIVE CSS
+        -------------------------------------------------- */
+
+        @media (min-width: 768px) {
+
+            /* Remve the edge padding needed for mobile */
+            .marketing {
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            /* Navbar positioning foo */
+            .navbar-wrapper {
+                margin-top: 20px;
+                margin-bottom: -90px; /* Negative margin to pull up carousel. 90px is roughly margins and height of navbar. */
+            }
+            /* The navbar becomes detached from the top, so we round the corners */
+            .navbar-wrapper .navbar {
+                border-radius: 4px;
+            }
+
+            /* Bump up size of carousel content */
+            .carousel-caption p {
+                margin-bottom: 20px;
+                font-size: 21px;
+                line-height: 1.4;
+            }
+            .circle{
+                border-radius:50%
+            }
+
+        }
+
+    </style>
+</head>
+
+<!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
+<body id="page-top" data-spy="scroll" data-target=".navbar-custom">
+<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand" href="#page-top">
+                <i class="fa fa-play-circle"></i>  <span class="light"><font size="4">Welcome To DIA</font> </span>
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+            <ul class="nav navbar-nav">
+                <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                <li class="hidden">
+                    <a href="#page-top"></a>
+                </li>
+                <li class="page-scroll">
+                    <a href="#feat">Features</a>
+                </li>
+                <li class="page-scroll">
+                    <a href="#getting_start">Getting started</a>
+                </li>
+                <li class="page-scroll">
+                    <a href="#footer">Contact Us</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+<section class="intro">
+    <div class="intro-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="text">
+                        <font size="20" align="center"><b><br/>Digital Irrigation Automation</b></font>
+                    </div>
+                    <p class="intro-text"> Talking Technology To The Nature</p>
+                    <div class="page-scroll">
+                        <a href="#feat" class="btn btn-circle">
+                            <i class="fa fa-angle-double-down animated"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+<br/>
+
+
+
+
+
+
+
+<div class="container marketing">
+    <div id="feat" >
+
+        <div class="row">
+            <br/>
+            <br/>
+            <br/>
+
+            <div class="col-sm-2" style="padding-left: 5%;padding-right: 5%;">
+
+                <img src="images/img_phone.jpg"  alt="Responsive image">
+
+            </div>
+
+
+        <div class="col-sm-9  jumbotron" style="padding: 3%;margin-left: 3%"/>
+            <font size="5"><b>Mobile Based </b></font><font size="4">
+            DIA project is based on telco platform. so any one can use this project even if they don't know how to access web or android
+            phones. You can access by just call *771*342# to start the new generation of Irrigation.
+        </font>
+        </div>
+    </div>
+
+        <div class="row">
+            <div class="col-sm-9 jumbotron" style="padding: 3%;"/>
+
+                <font size="5"><b>Intelligent Mode is on.</b></font>
+                <font size="4">
+                By this water will be saved. This device find your plant's temperature, moisture and Weather. so any
+                bad conditions will be informed to you and the necessary actions will be taken automatically.
+                </font>
+            </div>
+
+            <div class="col-sm-2" style="margin-left: 3%">
+
+                <img src="images/img_brain.jpg" class="circle" alt="Responsive image">
+
+            </div>
+
+
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-2" style="padding-left: 5%;padding-right: 5%;">
+                <img src="images/img_web.png"  alt="Responsive image">
+            </div>
+            <div class="col-sm-9  jumbotron" style="padding: 3%;margin-left: 3%">
+                <font size="5"><b>Web Based.</b></font>
+                <font size="4">
+                Not only Mobile, Web Service is also available. This make scheduling lot easier to
+                use. Much easier to manage your garden and control your device
+                in one place.
+                </font>
+
+                <div class="col-sm-1 col-sm-offset-5">
+                    <div class="page-scroll">
+                        <a href="#getting_start" class="btn btn-circle">
+                            <i class="fa fa-angle-double-down animated"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+    
+
+    
+    <div id="getting_start">
+
+
+        <div class="row">
+            <!--<hr class="featurette-divider" align="justify">-->
+            <div class="col-sm-12 jumbotron" style="padding: 3%;margin-top: 4%">
+                <font size="5"><b>Getting Started</b></font>
+                <br/>
+                <font size="4">
+                <p>
+                DIA (Digital Irrigation Automation) is project started with Yarl it Hub with a mission of Automate irrigation system.
+                This project is To develop the irrigation system to save water to the next generation. Water is an important source
+                for life and now it’s becoming polluted and Unavailable. This means in few years’ water could be a difficult thing to get.
+                Is south Asian countries irrigations is an open irrigation, so the Percentage of water wastage is high.
+                </p>
+                <p>
+                    Our aim is to reduce the wastage of water in irrigation. We introduce weather forecast for the irrigation. If It could
+                    be rain today so we don’t need to irrigate. We also introduce moisture sensors to find out water level on the land so it will
+                    tell you if the Plant need water or it will warn you there are too much water.
+                </p>
+
+                </font>
+                    <div class="btn btn-lg-3 btn-success col-sm-offset-5">
+                    <button type="button" class="btn btn-default"><a href="getting_start.html"> Grab your DIA</a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<hr class="featurette-divider">-->
+
+<div class="row" id="footer">
+            <!--<hr class="featurette-divider" align="justify">-->
+            <div class="col-sm-10 jumbotron col-sm-offset-1" style="padding: 3%;margin-top: 4%">
+                <div class="col-sm-4" style="padding: 3%;margin-top: 4%">
+                    
+                    <h3>Who we are</h3>
+
+                    Yarl it hub is a non-profit organization which give technology to people.
+                    we are running many project that help the people in a way to automate their daily life or get the new technology
+                    to their hands.
+                    
+                    
+                </div>
+                <div class="col-sm-4" style="padding: 3%;margin-top: 4%">
+                    
+                    
+                    
+                    <aside id="text-42" class="widget widget_text"><h3>Follow Us!</h3>			<div class="textwidget"><div class="socialmedia-buttons socialwidget_left">
+<a href="https://www.facebook.com/WeeblyTemplates/app_190322544333196" target="_blank" rel="nofollow"><img src="http://divtag.wpengine.netdna-cdn.com/wp-content/themes/catalyst/images/socialwidget/facebook_32.png" alt=" Facebook" title=" Facebook" class="scale"></a>
+<a href="http://twitter.com/#!/weeblytemplates" target="_blank" rel="nofollow"><img src="http://divtag.wpengine.netdna-cdn.com/wp-content/themes/catalyst/images/socialwidget/twitter_32.png" alt=" Twitter" title=" Twitter" class="scale"></a>
+<a href="http://www.youtube.com/DivTagTemplate" target="_blank" rel="nofollow"><img src="http://divtag.wpengine.netdna-cdn.com/wp-content/themes/catalyst/images/socialwidget/youtube_32.png" alt=" YouTube" title=" YouTube" class="scale"></a>
+<a href="https://plus.google.com/116568915155322381919?rel=publisher" target="_blank" rel="nofollow"><img src="http://divtag.wpengine.netdna-cdn.com/wp-content/uploads/2012/03/googleplus.png" alt=" Google Plus" title=" Google Plus" class="scale" width="32" height="32"></a>
+<a href="http://pinterest.com/divtagtemplates/" target="_blank" rel="nofollow"><img src="http://divtag.wpengine.netdna-cdn.com/wp-content/uploads/2013/01/pinterest.png" alt=" Pinterest" title=" Pinterest" class="scale" width="32" height="32"></a>
+</div></div>
+		</aside>
+                    
+                    
+                    
+                    
+                </div>
+            
+            
+                <div class="col-sm-4" style="padding: 3%;margin-top: 4%">
+                    
+                    <b>visit our official site</b><br>
+                    <a href="www.http://yarlithub.org/">www.yarlithub.org</a>
+                    <br>
+                    <br>
+                    <b> visit our official blog</b><br>
+                    <a href="http://yarlithub.org/blog/">www.yarlithub.org</a>
+                    <br>
+                    
+                    
+                    
+                </div>
+                
+             
+                    
+                
+                
+                
+                
+                
+                
+            </div>
+
+
+        </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+<!-- Core JavaScript Files -->
+<script src="js/jquery-1.10.2.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.easing.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="js/scrolling-nav.js"></script>
+<script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+</html>

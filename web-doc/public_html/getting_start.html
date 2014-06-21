@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Welcome to DIA</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom CSS -->
+    <link href="css/grayscale_2.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/bootstrap/img/favicon.ico">
+    <link rel="apple-touch-icon" href="/bootstrap/img/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/bootstrap/img/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/bootstrap/img/apple-touch-icon-114x114.png">
+
+
+
+    <style type="text/css">
+        /* BOOTSTRAP 3.x GLOBAL STYLES
+-------------------------------------------------- */
+        body {
+            padding-bottom: 40px;
+            color: #5a5a5a;
+        }
+
+        .TextWrapLeft{
+            float:left;
+            margin:10px;
+
+        }
+        .TextWrapRight{
+            float:right;
+            margin:10px;
+
+        }
+
+        /* CUSTOMIZE THE NAVBAR
+        -------------------------------------------------- */
+
+        /* Special class on .container surrounding .navbar, used for positioning it into place. */
+        .navbar-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+        }
+
+
+
+        /* CUSTOMIZE THE CAROUSEL
+        -------------------------------------------------- */
+
+        /* Carousel base class */
+        .carousel {
+            margin-bottom: 60px;
+        }
+        /* Since positioning the image, we need to help out the caption */
+        .carousel-caption {
+            z-index: 1;
+        }
+
+        /* Declare heights because of positioning of img element */
+        .carousel .item {
+            height: 600px;
+            background-color:#555;
+        }
+        .carousel img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            min-height: 600px;
+        }
+
+
+
+        /* MARKETING CONTENT
+        -------------------------------------------------- */
+
+        /* Pad the edges of the mobile views a bit */
+        .marketing {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        /* Center align the text within the three columns below the carousel */
+        .marketing .col-lg-4 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .marketing h2 {
+            font-weight: normal;
+        }
+        .marketing .col-lg-4 p {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+
+        /* Featurettes
+        ------------------------- */
+
+        .featurette-divider {
+            margin: 80px 0; /* Space out the Bootstrap <hr> more */
+        }
+        .featurette {
+            padding-top: 120px; /* Vertically center images part 1: add padding above and below text. */
+            overflow: hidden; /* Vertically center images part 2: clear their floats. */
+        }
+        .featurette-image {
+            margin-top: -120px; /* Vertically center images part 3: negative margin up the image the same amount of the padding to center it. */
+        }
+
+        /* Give some space on the sides of the floated elements so text doesn't run right into it. */
+        .featurette-image.pull-left {
+            margin-right: 40px;
+        }
+        .featurette-image.pull-right {
+            margin-left: 40px;
+        }
+
+        /* Thin out the marketing headings */
+        .featurette-heading {
+            font-size: 50px;
+            font-weight: 300;
+            line-height: 1;
+            letter-spacing: -1px;
+        }
+
+
+
+        /* RESPONSIVE CSS
+        -------------------------------------------------- */
+
+        @media (min-width: 768px) {
+
+            /* Remve the edge padding needed for mobile */
+            .marketing {
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            /* Navbar positioning foo */
+            .navbar-wrapper {
+                margin-top: 20px;
+                margin-bottom: -90px; /* Negative margin to pull up carousel. 90px is roughly margins and height of navbar. */
+            }
+            /* The navbar becomes detached from the top, so we round the corners */
+            .navbar-wrapper .navbar {
+                border-radius: 4px;
+            }
+
+            /* Bump up size of carousel content */
+            .carousel-caption p {
+                margin-bottom: 20px;
+                font-size: 21px;
+                line-height: 1.4;
+            }
+            .circle{
+                border-radius:50%
+            }
+
+        }
+
+    </style>
+</head>
+
+<!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
+<body id="page-top" data-spy="scroll" data-target=".navbar-custom">
+<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand" href="index.html#page-top">
+                <i class="fa fa-play-circle"></i>  <span class="light"><font size="4">Welcome To DIA</font> </span>
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+            <ul class="nav navbar-nav">
+                <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                <li class="hidden">
+                    <a href="#page-top"></a>
+                </li>
+                <li class="page-scroll">
+                    <a href="#inside_dia">Inside DIA</a>
+                </li>
+                <li class="page-scroll">
+                    <a href="#assamble">How DIA build</a>
+                </li>
+                <li class="page-scroll">
+                    <a href="#configure">Congigure it</a>
+                </li>
+                <li class="page-scroll">
+                    <a href="#contact">Contact Us</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+
+
+
+
+
+<br/>
+
+
+
+
+
+
+
+<div class="container marketing">
+    <div id="inside_dia" >
+           <br/>
+            <br/>
+<br/>
+
+<font size="5"><b>what is Inside DIA</b></font>
+        <div class="row">
+            <br/>
+  
+
+            <div class="col-sm-2" style="padding-left: 5%;padding-right: 5%;">
+
+                <img src="images/gsm.jpg" alt="Smiley face" height="200" width="170">
+            </div>
+
+
+        <div class="col-sm-9  jumbotron" style="padding: 3%;margin-left: 3%"/>
+            <font size="5"><b>Arduino with GSM Shield</b></font><font size="4">
+           is a tool for making computers that can sense and control more of the physical world than your desktop computer. It's an open-source physical computing platform based on a simple microcontroller board, and a development environment for writing software for the board.
+Arduino can be used to develop interactive objects, taking inputs from a variety of switches or sensors, and controlling a variety of lights, motors, and other physical outputs. 
+        <button type="button" class="btn btn-success">Visit arduino page</button>
+        </div>
+    </div>
+
+        <div class="row">
+            <div class="col-sm-9 jumbotron" style="padding: 3%;"/>
+
+                <font size="5"><b>Sensors</b></font>
+                <font size="4">
+               will sense your plant health and water levels.Soil/Dust Humidity/Water/Moisture Sensor
+
+  This is a simple water sensor can be used to detect soil moisture when the soil moisture deficit module outputs a high level, and vice versa output low. Use this sensor produced an automatic plant watering device, so that the plants in your garden without people to manage.
+<br/>
+The DS18B20 digital thermometer provides 9-bit to 12-bit Celsius temperature measurements and has an alarm function with nonvolatile user-programmable upper and lower trigger points. The DS18B20 communicates over a 1-Wire® bus that by definition requires only one data line (and ground) for communication with a central microprocessor
+ </font>
+            </div>
+
+            <div class="col-sm-2" style="margin-left: 3%">
+
+                <img src="images/sensors.jpg" align="middle" alt="Smiley face" height="200" width="170">
+            </div>
+
+
+        </div>
+
+
+        <div class="row" >
+            <div class="col-sm-2" style="padding-left: 5%;padding-right: 5%;">
+                <img src="images/ideamart.jpg" align="middle" alt="Smiley face" height="200" width="170">
+           </div>
+            <div class="col-sm-9  jumbotron" style="padding: 3%;margin-left: 3%">
+                <font size="5"><b>Ideamart</b></font>
+                <font size="4">
+                our project is bsaed on ideamart api. we use ideamart to send messages and resive them.
+                ideamart is plartform uild for the developers to build their own applications.
+                once you have registered to ideamart you can send 1000 sms per day with out any money.
+                this make our DIA much easier and give us a lot of freedom to control your
+                device with out any delay. LBS (location Based System) this enables to 
+                get the location of your device and allow us to predict thw current weather
+                of your area and we will give you the weather reports.
+                <a href="http://www.ideamart.lk" target="exit">visit ideamart webpage</a>
+                </font>
+
+                
+            </div>
+<!--<div class="col-sm-1 col-sm-offset-5">
+                    <div class="page-scroll">
+                        <a href="#getting_start" class="btn btn-circle">
+                            <i class="fa fa-angle-double-down animated"></i>
+                        </a>
+                    </div>
+                </div>-->
+
+        </div>
+    </div>
+
+
+
+    
+
+    
+    
+
+
+        <div class="row" id="assamble" >
+         <br/>
+
+
+         
+            <!--<hr class="featurette-divider" align="justify">-->
+            <div class="col-sm-8 jumbotron" id="assamble" style="padding: 3%;margin-top: 4%">
+                <font size="5"><b>Makeing of DIA</b></font>
+                <br/>
+                <font size="4">
+                <br>
+Project DIA has an aim to save water and make the environment green. most of the people don have a home garden because they don't have enough time but they have
+interest in haveing a home garden. soluation is simple. what if ,if we automate the irrigation. so yo daon't have to spend time on the garden. just send a 
+sms to water your plants. as we said above DIA consists of arduino, GSM sheild and sensors. the main process is we after all configrations when you send 
+a sms to the ideamart server it give a message to our server with your mobile mask number. then our server request the ideamart server to send the sms to
+the registered device. when the device get the message it started to on or of or sometimes load a shedule. if you want to see the whole diagram please click <a href="">here</a>.              </font>
+                
+            </div>
+            
+            
+            
+                   <div class="col-sm-3 col-sm-offset-1 jumbotron"  style="padding: 3%;margin-top: 4%">
+                       <a href="images/flow.png" target="exit" >       <img src="images/flow.png" align="middle" alt="Smiley face" height="300" width="230">
+                       </a>
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        </div>
+    
+    
+    
+    
+        <div class="row" id="configure">
+       
+         <br/>
+            <!--<hr class="featurette-divider" align="justify">-->
+            <div class="col-sm-6 jumbotron"  style="padding: 3%;margin-top: 4%">
+
+                <font size="5"><b>Configure it</b></font>
+                <br/>
+                <font size="4">
+              User  to Server: all sms should be sent to 77100<br/><br/>
+
+Subscribe: <b>REG dia</b> <br/>
+UnSubscribe: <b>UNREG dia</b> <br/><br/>
+
+configure(USSD) : <b>*771*100#</b><br/><br/>
+
+on: <b>dia on</b><br/>
+off: <b>dia off</b><br/><br/>
+
+if more than one devices configured<br/><br/>
+on:<b> dia on devicename</b><br/>
+off: <b>dia off devicename</b><br/><br/>
+
+schedule: <b>dia 1110101:4.00-6.00:12.30-1.00:17.00-19.45  [devicename]</b><br/>
+<b>We recommend you to schedule using web interface :)</b><br/>
+The message schedules per week first 7 bits says from Monday to Sunday which days the schedule should work and not by indicating 0 and 1. after that :  separated on-off times in 24Hrs, device name is optional if user is controlling more than one device
+<br/><br/>
+<b>modes of operation</b><br/><br/>
+
+1. Default mode:<b> dia mod d</b> <br/>
+Device just follow the schedule and commands <br/>
+2. Alert mode: <b>dia mod a</b><br/>
+Device just follow the schedule and commands and 
+sends alerts+suggestions about the environment on critical situations.<br/>
+3. Intelligent mode: <b>dia mod i</b><br/>
+ 	Device uses sensors and decide how to water the plant efficiently, 
+only ask the user if can’t make decision.<br/><br/>
+
+<b>Reporting</b><br/>
+
+1. Default: <b>dia rep all</b> <br/>Send status sms whenevers a command/intelligent action executed.<br/>
+2. Summary: <b>dia rep diay </b>          send a summary sms per diay
+           <b>dia rep week</b>          send a summary sms per week<br/>
+3. No reports: <b>dia rep off</b>  No status sms send back.<br/>
+
+
+     </font>
+                
+            </div>
+            
+            
+            
+            
+                        <div class="col-sm-5 col-sm-offset-1 jumbotron" id="configure" style="padding: 3%;margin-top: 4%">
+
+                            <font size="5"><b>Use it</b></font>
+                <br/>
+                You can use DIA by two methords.<br>
+                1. SMS <br>
+                2. Web Controller<br>
+                <br>
+                here is clear guide shows how to use SMS to control
+                your device<br>
+                <iframe width="420" height="345"
+src="http://www.youtube.com/embed/5bHPKU4ybHY">
+</iframe>
+<br>
+<br>
+and here is a another wideo shows how to control your device by our web controller.
+( web-controller - <a href="">www.webcontroller.lk</a> ).<br>
+                <iframe width="420" height="345"
+src="http://www.youtube.com/embed/fCxzA9_kg6s">
+</iframe>
+            </div>
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        </div>
+    
+    
+    
+    
+    
+    </div>
+    <!--<hr class="featurette-divider">-->
+
+
+
+<div class="fb-like col-sm-4 col-sm-offset-4" data-href="https://www.facebook.com/yarlithub"
+     data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="fb-root"></div>
+
+
+<!-- /END THE FEATURETTES -->
+<!-- FOOTER -->
+<footer>
+    <p class="col-sm-offset-10"><a href="#" class="">Back to top</a>
+
+    </p>
+
+</footer>
+</div>
+
+
+
+
+
+
+</body>
+
+<!-- Core JavaScript Files -->
+<script src="js/jquery-1.10.2.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.easing.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="js/scrolling-nav.js"></script>
+<script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+</html>

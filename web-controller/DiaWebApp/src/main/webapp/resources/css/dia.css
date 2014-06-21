@@ -1,0 +1,12 @@
+.thumbnail, a.thumbnail{
+    padding:20px;
+
+}
+
+.thumbnail:hover, a.thumbnail:hover{
+    background-color: #EFEFEF;
+}
+
+.thumbnail-no-hover:hover {
+background-color: #ffffff;
+}

@@ -1,0 +1,21 @@
+#Eclipse project files
+*.project
+*.classpath
+*.settings
+
+#IntelliJ IDEA project files and directories
+*.iml
+*.ipr
+*.iws
+.idea/
+
+#Build targets
+target/
+
+
+#Linux unsaved files
+*~
+
+#netbeans files
+nbproject/
+

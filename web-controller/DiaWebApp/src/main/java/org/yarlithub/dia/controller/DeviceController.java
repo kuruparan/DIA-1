@@ -39,7 +39,7 @@ public class DeviceController {
 
         Device device = new Device();
         device = DataLayer.getDeviceByName(request.getParameter("deviceName"));
-        if (device.getPin().equals(request.getParameter("pin"))) {
+        if (device!=null&&device.getPin().equals(request.getParameter("pin"))) {
             session = request.getSession();
             device.setGardenId((Integer) session.getAttribute("gardenId"));
             DataLayer.updateDevice(device);
@@ -48,7 +48,7 @@ public class DeviceController {
             model.addAttribute("devices", devices);
             return "gardenHome";
         } else {
-            return "addDevice";
+            return "goToAddDevice";
         }
 
 

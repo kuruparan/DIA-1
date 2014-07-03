@@ -62,7 +62,13 @@
                     <p>The Digital Irrigation Automation platform</p>
                 </div>
                 <div class="col-sm-5">
-                    <form method="post" action="login">
+                    <c:if test="${not empty error}">
+                        <div class="error">${error}</div>
+                    </c:if>
+                    <c:if test="${not empty msg}">
+                        <div class="msg">${msg}</div>
+                    </c:if>
+                    <form method="post" action="<c:url value='/j_spring_security_check' />">
                         <div class="col-sm-5" style="padding: 0">
                             <input type="text" name="gardenName" class="form-control" placeholder="Garden name">
                         </div>

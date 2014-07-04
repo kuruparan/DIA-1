@@ -98,3 +98,13 @@ INSERT INTO `dia`.`device` (`id`, `device_name`, `pin`, `device_mask`, `garden_i
 
 COMMIT;
 
+
+-- -----------------------------------------------------
+-- Data for table `dia`.`end_point`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `dia`;
+INSERT INTO `dia`.`end_point` (`id`, `device_id`, `operation_mode`, `operation_type`, `schedule`, `current_status`, `sensor_data`) VALUES (1, 1, 0, 0, NULL, NULL, NULL);
+
+COMMIT;
+

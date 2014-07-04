@@ -3,6 +3,7 @@ package org.yarlithub.dia.repo;
 import com.mysql.jdbc.Connection;
 import org.yarlithub.dia.repo.object.Device;
 import org.yarlithub.dia.repo.object.DeviceAccess;
+import org.yarlithub.dia.repo.object.EndPoint;
 import org.yarlithub.dia.repo.object.Garden;
 
 import java.sql.ResultSet;
@@ -38,12 +39,7 @@ public class DiaDBUtil {
                 device.setPin(resultSet.getString("pin"));
                 device.setDeviceMask(resultSet.getString("device_mask"));
                 device.setGardenId(resultSet.getInt("garden_id"));
-                device.setOperationMode(resultSet.getInt("operation_mode"));
-                device.setOperationType(resultSet.getInt("operation_type"));
-                device.setCurrentStatus(resultSet.getInt("current_status"));
-                device.setSchedule(resultSet.getString("schedule"));
-                device.setSensorData(resultSet.getString("sensor_data"));
-            }
+                }
             resultSet.close();
             con.close();
         } catch (SQLException e) {
@@ -71,11 +67,6 @@ public class DiaDBUtil {
                 device.setPin(resultSet.getString("pin"));
                 device.setDeviceMask(resultSet.getString("device_mask"));
                 device.setGardenId(resultSet.getInt("garden_id"));
-                device.setOperationMode(resultSet.getInt("operation_mode"));
-                device.setOperationType(resultSet.getInt("operation_type"));
-                device.setCurrentStatus(resultSet.getInt("current_status"));
-                device.setSchedule(resultSet.getString("schedule"));
-                device.setSensorData(resultSet.getString("sensor_data"));
                 deviceList.add(device);
             }
             resultSet.close();
@@ -84,6 +75,61 @@ public class DiaDBUtil {
             LOGGER.log(Level.SEVERE, "SQLException: " + e);
         }
         return deviceList;
+    }
+
+    /**
+     * Create List of EndPoints instance by EndPoint resultSet.
+     *
+     * @param sql SQL String
+     * @return List of EndPoint with positive id if successful, or id 0.
+     */
+    public static List<EndPoint> getEndPointList(String sql) {
+
+        List<EndPoint> endPointList = new ArrayList<EndPoint>();
+        try {
+            Connection con = DiaDBConnector.getConnection();
+            ResultSet resultSet = sqlQuery(con, sql);
+            while(resultSet.next()) {
+                EndPoint endPoint = new EndPoint();
+                endPoint.setId(resultSet.getInt("id"));
+                endPoint.setDeviceId(resultSet.getInt("device_id"));
+                endPoint.setOperationMode(resultSet.getInt("operation_mode"));
+                endPoint.setOperationType(resultSet.getInt("operation_type"));
+                endPoint.setCurrentStatus(resultSet.getInt("current_status"));
+                endPoint.setSchedule(resultSet.getString("schedule"));
+                endPoint.setSensorData(resultSet.getString("sensor_data"));
+                endPointList.add(endPoint);
+            }
+            resultSet.close();
+            con.close();
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "SQLException: " + e);
+        }
+        return endPointList;
+    }
+
+    public static EndPoint getEndPoint(String sql) {
+
+        EndPoint endPoint=new EndPoint();
+        try {
+            Connection con = DiaDBConnector.getConnection();
+            ResultSet resultSet = sqlQuery(con, sql);
+            if(resultSet.next()) {
+                endPoint.setId(resultSet.getInt("id"));
+                endPoint.setDeviceId(resultSet.getInt("device_id"));
+                endPoint.setOperationMode(resultSet.getInt("operation_mode"));
+                endPoint.setOperationType(resultSet.getInt("operation_type"));
+                endPoint.setCurrentStatus(resultSet.getInt("current_status"));
+                endPoint.setSchedule(resultSet.getString("schedule"));
+                endPoint.setSensorData(resultSet.getString("sensor_data"));
+
+            }
+            resultSet.close();
+            con.close();
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "SQLException: " + e);
+        }
+        return endPoint;
     }
 
     /**

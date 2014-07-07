@@ -46,7 +46,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome to <c:out
                             value="${sessionScope.gardenName}"/> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="${contextPath}/signOut">Sign Out</a></li>
+                        <li><a href="${contextPath}/j_spring_security_logout">Sign Out</a></li>
                         <li class="divider"></li>
                         <li><a href="#">About DIA</a></li>
                     </ul>

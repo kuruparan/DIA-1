@@ -30,11 +30,6 @@ CREATE TABLE IF NOT EXISTS `dia`.`device` (
   `pin` VARCHAR(45) NOT NULL,
   `device_mask` VARCHAR(45) NOT NULL,
   `garden_id` INT NULL,
-  `operation_mode` INT NOT NULL DEFAULT 0,
-  `operation_type` INT NOT NULL DEFAULT 0,
-  `schedule` VARCHAR(500) NULL,
-  `current_status` INT NOT NULL DEFAULT 0,
-  `sensor_data` VARCHAR(100) NOT NULL DEFAULT 'T:0;M:0',
   PRIMARY KEY (`id`),
   UNIQUE INDEX `device_name_UNIQUE` (`device_name` ASC),
   INDEX `fk_device_garden1_idx` (`garden_id` ASC),
@@ -68,15 +63,48 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Data for table `dia`.`device`
+-- Table `dia`.`end_point`
 -- -----------------------------------------------------
-START TRANSACTION;
-USE `dia`;
-INSERT INTO `dia`.`device` (`id`, `device_name`, `pin`, `device_mask`, `garden_id`, `operation_mode`, `operation_type`, `schedule`, `current_status`) VALUES (1, 'initial-required', 'a;lksdfkjwoei#@%$!lskdfjcnjdalejlvj87327#', '99999999999', NULL, 0, 0, '', 0);
+DROP TABLE IF EXISTS `dia`.`end_point` ;
 
-COMMIT;
+CREATE TABLE IF NOT EXISTS `dia`.`end_point` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `device_id` INT NOT NULL,
+  `operation_mode` INT NOT NULL DEFAULT 0,
+  `operation_type` INT NOT NULL DEFAULT 0,
+  `schedule` VARCHAR(1000) NULL,
+  `current_status` INT NOT NULL DEFAULT 0,
+  `sensor_data` VARCHAR(45) NOT NULL DEFAULT 'T:0;M:0',
+  PRIMARY KEY (`id`),
+  INDEX `fk_end_point_device1_idx` (`device_id` ASC),
+  CONSTRAINT `fk_end_point_device1`
+    FOREIGN KEY (`device_id`)
+    REFERENCES `dia`.`device` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+-- -----------------------------------------------------
+-- Data for table `dia`.`device`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `dia`;
+INSERT INTO `dia`.`device` (`id`, `device_name`, `pin`, `device_mask`, `garden_id`) VALUES (1, 'initial-required', 'a;lksdfkjwoei#@%$!lskdfjcnjdalejlvj87327#', '99999999999', NULL);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `dia`.`end_point`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `dia`;
+INSERT INTO `dia`.`end_point` (`id`, `device_id`, `operation_mode`, `operation_type`, `schedule`, `current_status`, `sensor_data`) VALUES (1, 1, 0, 0, NULL, NULL, NULL);
+
+COMMIT;
+

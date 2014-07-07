@@ -3,6 +3,7 @@ package org.yarlithub.dia.repo;
 import com.mysql.jdbc.Connection;
 import org.yarlithub.dia.repo.object.Device;
 import org.yarlithub.dia.repo.object.DeviceAccess;
+import org.yarlithub.dia.repo.object.EndPoint;
 import org.yarlithub.dia.repo.object.Garden;
 
 import java.sql.ResultSet;
@@ -51,6 +52,16 @@ public class DataLayer {
     public static List<Device> getDevicesByGardenId(int gardenId) {
         String sql = String.format("SELECT * FROM device where garden_id=\"%s\"", gardenId);
         return DiaDBUtil.getDeviceList(sql);
+    }
+
+    public static List<EndPoint> getEndPointsByDeviceId(int deviceId) {
+        String sql = String.format("SELECT * FROM end_point where device_id=\"%s\"", deviceId);
+        return DiaDBUtil.getEndPointList(sql);
+    }
+
+    public static EndPoint getEndPointById(int id) {
+        String sql = String.format("SELECT * FROM end_point WHERE id=\"%s\"", id);
+        return DiaDBUtil.getEndPoint(sql);
     }
 
     public static boolean isUser() {
@@ -107,9 +118,49 @@ public class DataLayer {
         int result = 0;
         Connection con = DiaDBConnector.getConnection();
         String sql = String.format("UPDATE device "
-                + "SET garden_id = \"%s\", schedule = \"%s\", current_status = \"%d\", operation_mode = \"%d\", operation_type = \"%d\", sensor_data = \"%s\""
+                + "SET garden_id = \"%s\""
                 + "WHERE id = \"%s\""
-                ,device.getGardenId(),device.getSchedule(),device.getCurrentStatus(),device.getOperationMode(),device.getOperationType(),device.getSensorData(), String.valueOf(device.getId()));
+                ,device.getGardenId(),String.valueOf(device.getId()));
+        try {
+            result = DiaDBUtil.sqlUpdate(con, sql);
+            con.close();
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "SQLException: " + e);
+        }
+        return result;
+    }
+    public static int addEndPoint(int deviceId){
+        int maxId = Integer.MAX_VALUE;
+        int result=0;
+        Connection con = DiaDBConnector.getConnection();
+        String sqlMaxId = "SELECT id FROM end_point ORDER BY id DESC LIMIT 1";
+        try {
+            ResultSet rs = DiaDBUtil.sqlQuery(con, sqlMaxId);
+            if (rs.next()) {
+                maxId = rs.getInt("id") + 1;
+                if(true){   //todo
+                    String sqlIncrement =
+                            String.format("INSERT INTO end_point (device_id)" +
+                                    " VALUES (\"%s\")",
+                                    deviceId, String.valueOf(maxId));
+                    result= DiaDBUtil.sqlUpdate(con, sqlIncrement);
+                }
+            }
+            rs.close();
+            con.close();
+        } catch (SQLException se) {
+            //Handle errors for JDBC
+            LOGGER.log(Level.SEVERE, "SQLException: " + se);
+        }
+        return result;
+    }
+    public static int updateEndPoint(EndPoint endPoint) {
+        int result = 0;
+        Connection con = DiaDBConnector.getConnection();
+        String sql = String.format("UPDATE end_point "
+                + "SET device_id = \"%s\", schedule = \"%s\", current_status = \"%d\", operation_mode = \"%d\", operation_type = \"%d\", sensor_data = \"%s\""
+                + "WHERE id = \"%s\""
+                ,endPoint.getDeviceId(),endPoint.getSchedule(),endPoint.getCurrentStatus(),endPoint.getOperationMode(),endPoint.getOperationType(),endPoint.getSensorData(), String.valueOf(endPoint.getId()));
         try {
             result = DiaDBUtil.sqlUpdate(con, sql);
             con.close();

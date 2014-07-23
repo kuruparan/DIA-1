@@ -73,22 +73,19 @@ public class EndPointController {
     @RequestMapping(value = "/updateSchedule", method = RequestMethod.POST)
     public void updateSchedule(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String ss1 = request.getParameter("days");
-        String[] ss2 = request.getParameterValues("start");
-        String[] ss3 = request.getParameterValues("end");
-        String schedule = null;
+        String schedule = request.getParameter("schedule");
 
-        if (ss1 != null) {
-            ss1 = ss1.replace("b", "");
-            schedule = ss1;
+        if (schedule != null) {
+            schedule = schedule.replace("b", "");
+
         }
-        if (ss2 != null & ss2 != null) {
+        /*if (ss2 != null & ss2 != null) {
             for (int n = 0; n < ss2.length; n++) {
                 ss2[n] = ss2[n].replace("start:", "");
                 ss3[n] = ss3[n].replace("end:", "");
                 schedule += ";" + ss2[n] + "-" + ss3[n];
             }
-        }
+        }*/
         EndPoint endPoint = DataLayer.getEndPointById(Integer.parseInt(request.getParameter("id")));
         endPoint.setSchedule(schedule);
         DataLayer.updateEndPoint(endPoint);

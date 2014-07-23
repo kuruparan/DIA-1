@@ -3,6 +3,9 @@ package org.yarlithub.dia.repo.object;
 import org.yarlithub.dia.util.OperationMode;
 import org.yarlithub.dia.util.OperationType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Project YIT DIA
  * Created by jaykrish on 5/25/14.
@@ -18,6 +21,15 @@ public class Device {
     private int operationMode;
     private int operationType;
     private int currentStatus;
+    private List<EndPoint> endPointList = new ArrayList<>();
+
+    public List<EndPoint> getEndPointList() {
+        return endPointList;
+    }
+
+    public void setEndPointList(List<EndPoint> endPointList) {
+        this.endPointList = endPointList;
+    }
 
     public Device() {
         this.id = 0;

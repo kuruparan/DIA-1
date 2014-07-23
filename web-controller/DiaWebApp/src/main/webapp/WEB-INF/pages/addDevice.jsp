@@ -63,7 +63,7 @@
 
     <!-- Main component for a primary marketing message or call to action -->
     <div class="thumbnail col-sm-8 col-sm-offset-2" >
-        <form method="post" action="addDevice">
+        <form method="post" action="addDeviceToGarden">
 
             <div class="col-sm-8 col-sm-offset-2">
                 <input type="text" name="deviceName" class="form-control input-lg col-sm-4"

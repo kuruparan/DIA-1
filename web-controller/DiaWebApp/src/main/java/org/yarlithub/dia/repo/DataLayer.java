@@ -24,6 +24,10 @@ public class DataLayer {
         return DiaDBUtil.getDevice(sql);
     }
 
+    /**
+     * @param device_name
+     * @return
+     */
     public static Device getDeviceByName(String device_name) {
         String sql = String.format("SELECT * FROM device WHERE device_name=\"%s\"", device_name);
         return DiaDBUtil.getDevice(sql);
@@ -49,9 +53,15 @@ public class DataLayer {
         return DiaDBUtil.getGarden(sql);
     }
 
-    public static List<Device> getDevicesByGardenId(int gardenId) {
+    public static List<Device> getDevicesByGardenId(int gardenId, boolean requestEndpoints) {
         String sql = String.format("SELECT * FROM device where garden_id=\"%s\"", gardenId);
-        return DiaDBUtil.getDeviceList(sql);
+        List<Device> deviceList = DiaDBUtil.getDeviceList(sql);
+        if (requestEndpoints) {
+            for (Device device : deviceList) {
+                device.setEndPointList(getEndPointsByDeviceId(device.getId()));
+            }
+        }
+        return deviceList;
     }
 
     public static List<EndPoint> getEndPointsByDeviceId(int deviceId) {
@@ -103,7 +113,7 @@ public class DataLayer {
         String sql = String.format("UPDATE device "
                 + "SET device_name = \"%s\", pin = \"%s\", device_mask = \"%s\""
                 + "WHERE id = \"%s\""
-                , device.getDeviceName(), device.getPin(), device.getDeviceMask(),String.valueOf(device.getId()));
+                , device.getDeviceName(), device.getPin(), device.getDeviceMask(), String.valueOf(device.getId()));
 
         try {
             result = DiaDBUtil.sqlUpdate(con, sql);
@@ -120,7 +130,7 @@ public class DataLayer {
         String sql = String.format("UPDATE device "
                 + "SET garden_id = \"%s\""
                 + "WHERE id = \"%s\""
-                ,device.getGardenId(),String.valueOf(device.getId()));
+                , device.getGardenId(), String.valueOf(device.getId()));
         try {
             result = DiaDBUtil.sqlUpdate(con, sql);
             con.close();
@@ -129,21 +139,22 @@ public class DataLayer {
         }
         return result;
     }
-    public static int addEndPoint(int deviceId){
+
+    public static int addEndPoint(int deviceId) {
         int maxId = Integer.MAX_VALUE;
-        int result=0;
+        int result = 0;
         Connection con = DiaDBConnector.getConnection();
         String sqlMaxId = "SELECT id FROM end_point ORDER BY id DESC LIMIT 1";
         try {
             ResultSet rs = DiaDBUtil.sqlQuery(con, sqlMaxId);
             if (rs.next()) {
                 maxId = rs.getInt("id") + 1;
-                if(true){   //todo
+                if (true) {   //todo
                     String sqlIncrement =
                             String.format("INSERT INTO end_point (device_id)" +
                                     " VALUES (\"%s\")",
                                     deviceId, String.valueOf(maxId));
-                    result= DiaDBUtil.sqlUpdate(con, sqlIncrement);
+                    result = DiaDBUtil.sqlUpdate(con, sqlIncrement);
                 }
             }
             rs.close();
@@ -154,13 +165,14 @@ public class DataLayer {
         }
         return result;
     }
+
     public static int updateEndPoint(EndPoint endPoint) {
         int result = 0;
         Connection con = DiaDBConnector.getConnection();
         String sql = String.format("UPDATE end_point "
                 + "SET device_id = \"%s\", schedule = \"%s\", current_status = \"%d\", operation_mode = \"%d\", operation_type = \"%d\", sensor_data = \"%s\""
                 + "WHERE id = \"%s\""
-                ,endPoint.getDeviceId(),endPoint.getSchedule(),endPoint.getCurrentStatus(),endPoint.getOperationMode(),endPoint.getOperationType(),endPoint.getSensorData(), String.valueOf(endPoint.getId()));
+                , endPoint.getDeviceId(), endPoint.getSchedule(), endPoint.getCurrentStatus(), endPoint.getOperationMode(), endPoint.getOperationType(), endPoint.getSensorData(), String.valueOf(endPoint.getId()));
         try {
             result = DiaDBUtil.sqlUpdate(con, sql);
             con.close();

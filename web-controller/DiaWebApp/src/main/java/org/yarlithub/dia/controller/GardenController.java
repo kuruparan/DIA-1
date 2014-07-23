@@ -35,7 +35,7 @@ public class GardenController {
         session.setAttribute("gardenId", gn.getId());
         session.setAttribute("gardenName", gn.getGardenName());
 
-        List<Device> devices = DataLayer.getDevicesByGardenId(gn.getId());
+        List<Device> devices = DataLayer.getDevicesByGardenId(gn.getId(),true);
         model.addAttribute("devices", devices);
         return "gardenHome";
 

@@ -26,7 +26,7 @@ import java.util.List;
 public class DeviceController {
     HttpSession session;
 
-    @RequestMapping(value = "/goToAddDevice", method = RequestMethod.GET)
+    @RequestMapping(value = "/addDevice", method = RequestMethod.GET)
     public String goTo(HttpServletRequest request) {
         session = request.getSession();
         if(session.getAttribute("gardenId")!=null){
@@ -35,21 +35,20 @@ public class DeviceController {
         return "login";
     }
 
-    @RequestMapping(value = "/addDevice", method = RequestMethod.POST)
+    @RequestMapping(value = "/addDeviceToGarden", method = RequestMethod.POST)
     public String addDevice(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
 
-        Device device = new Device();
-        device = DataLayer.getDeviceByName(request.getParameter("deviceName"));
+        Device device = DataLayer.getDeviceByName(request.getParameter("deviceName"));
         if (device!=null&&device.getPin().equals(request.getParameter("pin"))) {
             session = request.getSession();
             device.setGardenId((Integer) session.getAttribute("gardenId"));
             DataLayer.updateDevice(device);
 
-            List<Device> devices = DataLayer.getDevicesByGardenId(device.getGardenId());
+            List<Device> devices = DataLayer.getDevicesByGardenId(device.getGardenId(),true);
             model.addAttribute("devices", devices);
             return "gardenHome";
         } else {
-            return "goToAddDevice";
+            return "addDevice";
         }
 
     }

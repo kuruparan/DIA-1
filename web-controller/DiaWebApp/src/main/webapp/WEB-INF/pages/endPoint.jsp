@@ -29,7 +29,7 @@
             var m1 = document.createElement("input");
             m1.setAttribute('type', 'hidden');
             m1.setAttribute('name', 'start');
-            m1.setAttribute('value', "start:" + document.getElementById("startTime").value);
+            m1.setAttribute('value',document.getElementById("startTime").value);
             m1.readOnly = true;
             cell1.innerHTML = document.getElementById("startTime").value;
             cell1.appendChild(m1);
@@ -37,7 +37,7 @@
             var m2 = document.createElement("input");
             m2.setAttribute('type', 'hidden');
             m2.setAttribute('name', 'end');
-            m2.setAttribute('value', "end:"+document.getElementById("endTime").value);
+            m2.setAttribute('value',document.getElementById("endTime").value);
             m2.readOnly=true;
             cell3.innerHTML = document.getElementById("endTime").value;
             cell3.appendChild(m2);
@@ -57,8 +57,17 @@
                     addon += "0";
                 }
             }
+
+            var avS=document.getElementsByName("start");
+            var avE=document.getElementsByName("end");
+
+            for (e = 0; e < avS.length; e++)
+            {
+               addon +=";" + avS[e].value + "-" + avE[e].value;
+            }
+
             document.getElementById("endPointId").value="<%=request.getParameter("id")%>";
-            document.getElementById("daysId").value=addon;
+            document.getElementById("scheduleId").value=addon;
             document.getElementById("timeSchedule").submit();
 
         }
@@ -304,7 +313,6 @@
     <div class="thumbnail col-sm-12">
 
 
-
         <div class="row">
             <div class="lead col-sm-3 col-sm-offset-3">Device Schedule</div>
             <div class="onoffswitch col-sm-2 ">
@@ -318,96 +326,157 @@
 
 
         </div>
-        <div class="col-sm-7">
+        <div id="normalScheduleId"  style="display: none;">
+            <div class="col-sm-7">
 
-            <div class="thumbnail" style="padding-top: 0;">
+                <div class="thumbnail" style="padding-top: 0;">
 
-                <div class="form-group ">
-                    <label class="control-label col-md-1" for="startTime">Start</label>
+                    <div class="form-group ">
+                        <label class="control-label col-md-1" for="startTime">Start</label>
 
-                    <div class="col-sm-3">
-                        <div class="input-group clockpicker">
-                            <input type="text" id="startTime" class="form-control" value="09:30">
+                        <div class="col-sm-3">
+                            <div class="input-group clockpicker">
+                                <input type="text" id="startTime" class="form-control" value="09:30">
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-time"></span>
                         </span>
+                            </div>
                         </div>
-                    </div>
-                    <label class="control-label col-md-1" for="endTime">Stop</label>
+                        <label class="control-label col-md-1" for="endTime">Stop</label>
 
-                    <div class="col-sm-3">
-                        <div class="input-group clockpicker">
-                            <input type="text" id="endTime" class="form-control" value="09:30">
+                        <div class="col-sm-3">
+                            <div class="input-group clockpicker">
+                                <input type="text" id="endTime" class="form-control" value="09:30">
 			                <span class="input-group-addon">
 				            <span class="glyphicon glyphicon-time"></span>
 			            </span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <button type="button" onclick="addSchedule()" class="btn btn-default col-sm-offset-2">Add
+                                this
+                                new
+                                interval
+                            </button>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-sm-2">
-                        <button type="button" onclick="addSchedule()" class="btn btn-default col-sm-offset-2">Add this
-                            new
-                            interval
-                        </button>
+
+                <form id="timeSchedule" action="updateSchedule" method="post">
+                    <table class="table table-hover col-sm-7" id="scheduleTable">
+                        <tbody>
+                        <c:forEach items="${schedules}" var="schedule">
+                            <tr>
+                                <td>
+                                    <c:out value="${schedule.from}"/>
+                                    <input type="hidden" name="start"
+                                           value='<c:out value="${schedule.from}"/>' readonly></td>
+                                <td>
+
+                                </td>
+                                <td>
+                                    <c:out value="${schedule.to}"/>
+                                    <input type="hidden" name="end"
+                                           value='<c:out value="${schedule.to}"/>' readonly>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                    <input type="hidden" name="schedule" id="scheduleId"/>
+                    <input type="hidden" name="id" id="endPointId"/>
+                </form>
+
+            </div>
+
+            <div class="thumbnail col-sm-3 col-sm-offset-2">Schedule Active Days
+                <form id="daySchedule">
+                    <input type="checkbox" name="day" value="mo">Monday <br/>
+                    <input type="checkbox" name="day" value="tu">Tuesday <br/>
+                    <input type="checkbox" name="day" value="tu">Wednesday<br/>
+                    <input type="checkbox" name="day" value="tu">Thursday<br/>
+                    <input type="checkbox" name="day" value="tu">Friday<br/>
+                    <input type="checkbox" name="day" value="tu">Saturday<br/>
+                    <input type="checkbox" name="day" value="tu">Sunday<br/>
+                </form>
+            </div>
+        </div>
+        <div id="advanceScheduleId">
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseSun">
+                                Sun Day
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseSun" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div class="thumbnail" style="padding-top: 0;">
+
+                                <div class="form-group ">
+                                    <label class="control-label col-md-1" for="startTime">Start</label>
+
+                                    <div class="col-sm-3">
+                                        <div class="input-group clockpicker">
+                                            <input type="text" id="startTimeSun" class="form-control" value="09:30">
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-time"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label class="control-label col-md-1" for="endTime">Stop</label>
+
+                                    <div class="col-sm-3">
+                                        <div class="input-group clockpicker">
+                                            <input type="text" id="endTimeSun" class="form-control" value="09:30">
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-time"></span>
+			                                </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <button type="button" onclick="addSchedule()"
+                                                class="btn btn-default col-sm-offset-2">Add
+                                            this
+                                            new
+                                            interval
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseMon">
+                                Mon Day
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseMon" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            Mon Day
+                        </div>
                     </div>
                 </div>
             </div>
-
-
-            <form id="timeSchedule" action="updateSchedule" method="post">
-                <table class="table table-hover col-sm-7" id="scheduleTable">
-                    <tbody>
-                    <c:forEach items="${schedules}" var="schedule">
-                        <tr>
-                            <td>
-                                <c:out value="${schedule.from}"/>
-                                <input type="hidden" name="start"
-                                       value='start:<c:out value="${schedule.from}"/>' readonly></td>
-                            <td>
-
-                            </td>
-                            <td>
-                                <c:out value="${schedule.to}"/>
-                                <input type="hidden" name="end"
-                                       value='end:<c:out value="${schedule.to}"/>' readonly>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-                <input type="hidden" name="days" id="daysId"/>
-                <input type="hidden" name="id" id="endPointId"/>
-            </form>
-
         </div>
 
-        <div class="thumbnail col-sm-3 col-sm-offset-2">Schedule Active Days
-            <form id="daySchedule">
-                <input type="checkbox" name="day" value="mo">Monday <br/>
-                <input type="checkbox" name="day" value="tu">Tuesday <br/>
-                <input type="checkbox" name="day" value="tu">Wednesday<br/>
-                <input type="checkbox" name="day" value="tu">Thursday<br/>
-                <input type="checkbox" name="day" value="tu">Friday<br/>
-                <input type="checkbox" name="day" value="tu">Saturday<br/>
-                <input type="checkbox" name="day" value="tu">Sunday<br/>
-            </form>
-        </div>
 
-        <button type="clear" onclick="reloadPage()" class="btn btn-lg btn-default  col-sm-offset-3">Cancel and Reset Default</button>
+        <button type="clear" onclick="reloadPage()" class="btn btn-lg btn-default  col-sm-offset-3">Cancel and Reset
+            Default
+        </button>
         <%--<button type="button" onclick="submitAllForm()" class="btn btn-lg btn-success">Update and Activate this--%>
         <%--Schedule--%>
         <%--</button>--%>
-
-
-
-
-
-
-
-
-
-
-
 
 
         <!-- Button trigger modal -->

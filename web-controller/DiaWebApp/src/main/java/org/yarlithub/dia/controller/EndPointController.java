@@ -5,6 +5,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.yarlithub.dia.repo.DataLayer;
+import org.yarlithub.dia.repo.object.DaySchedule;
 import org.yarlithub.dia.repo.object.Device;
 import org.yarlithub.dia.repo.object.EndPoint;
 import org.yarlithub.dia.repo.object.Schedule;
@@ -18,7 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.text.DateFormatSymbols;
 
 @Controller
 @RequestMapping("/")
@@ -43,24 +46,62 @@ public class EndPointController {
     @RequestMapping(value = "/endPoint", method = RequestMethod.GET)
     public String goToDevice(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
 
+        List<String> days=new ArrayList<String>();
+        days.add("Sun Day");
+        days.add("Mon Day");
+        model.addAttribute("days", days);
+
         EndPoint endPoint=DataLayer.getEndPointById(Integer.parseInt(request.getParameter("id")));
-        if (endPoint.getSchedule() != null) {
-            String[] ss = endPoint.getSchedule().split(";");
-            String[] temSS;
-            Schedule schedule;
-            List<Schedule> schedules = new ArrayList<Schedule>();
-            for (String s : ss) {
-                if (s.contains("-")) {
-                    schedule = new Schedule();
-                    temSS = s.split("-");
-                    schedule.setFrom(temSS[0]);
-                    schedule.setTo(temSS[1]);
-                    schedules.add(schedule);
+        String scheduleString=endPoint.getSchedule();
+        if (scheduleString != null) {
+            char c=scheduleString.charAt(0);
+            model.addAttribute("scheduleOption", c);
+            scheduleString=scheduleString.substring(2);
+            if(c=='0'){
+                char[] daySche = scheduleString.substring(0,6).toCharArray();
+                scheduleString=scheduleString.substring(8);
+                String[] ss = scheduleString.split(",");
+                String[] temSS;
+                Schedule schedule;
+                List<Schedule> schedules = new ArrayList<Schedule>();
+                for (String s : ss) {
+                    if (s.contains("-")) {
+                        schedule = new Schedule();
+                        temSS = s.split("-");
+                        schedule.setFrom(temSS[0]);
+                        schedule.setTo(temSS[1]);
+                        schedules.add(schedule);
+                    }
                 }
+
+                model.addAttribute("schedules0", schedules);
+                model.addAttribute("daySche", daySche);
+            }else{
+                String[] eachDaySchedules= scheduleString.split(";",-1);
+
+                List<DaySchedule> schedulesList=new ArrayList<DaySchedule>();
+
+                int n=1;
+                for(String dS:eachDaySchedules){
+                    String[] ss = dS.split(",");
+                    String[] temSS;
+                    Schedule schedule;
+                    List<Schedule> schedules = new ArrayList<Schedule>();
+
+                    for (String s : ss) {
+                        if (s.contains("-")) {
+                            schedule = new Schedule();
+                            temSS = s.split("-");
+                            schedule.setFrom(temSS[0]);
+                            schedule.setTo(temSS[1]);
+                            schedules.add(schedule);
+                        }
+                    }
+
+                    schedulesList.add(new DaySchedule(schedules,n++));
+                }
+                model.addAttribute("schedulesList", schedulesList);
             }
-            char[] daySche = ss[0].toCharArray();
-            model.addAttribute("schedules", schedules);
-            model.addAttribute("daySche", daySche);
         }
         Device device=DataLayer.getDeviceById(endPoint.getDeviceId());
         model.addAttribute("endPoint", endPoint);
@@ -79,13 +120,7 @@ public class EndPointController {
             schedule = schedule.replace("b", "");
 
         }
-        /*if (ss2 != null & ss2 != null) {
-            for (int n = 0; n < ss2.length; n++) {
-                ss2[n] = ss2[n].replace("start:", "");
-                ss3[n] = ss3[n].replace("end:", "");
-                schedule += ";" + ss2[n] + "-" + ss3[n];
-            }
-        }*/
+
         EndPoint endPoint = DataLayer.getEndPointById(Integer.parseInt(request.getParameter("id")));
         endPoint.setSchedule(schedule);
         DataLayer.updateEndPoint(endPoint);

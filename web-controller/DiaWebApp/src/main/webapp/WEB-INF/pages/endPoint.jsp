@@ -17,8 +17,8 @@
 
 
     <script type="text/javascript">
-        function addSchedule() {
-            var table = document.getElementById("scheduleTable");
+        function addSchedule(x) {
+            var table = document.getElementById("scheduleTable"+x);
             var row = table.insertRow(0);
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
@@ -28,42 +28,72 @@
 
             var m1 = document.createElement("input");
             m1.setAttribute('type', 'hidden');
-            m1.setAttribute('name', 'start');
-            m1.setAttribute('value',document.getElementById("startTime").value);
+            m1.setAttribute('name', 'start'+x);
+            m1.setAttribute('value',document.getElementById("startTime"+x).value);
             m1.readOnly = true;
-            cell1.innerHTML = document.getElementById("startTime").value;
+            cell1.innerHTML = document.getElementById("startTime"+x).value;
             cell1.appendChild(m1);
 
             var m2 = document.createElement("input");
             m2.setAttribute('type', 'hidden');
-            m2.setAttribute('name', 'end');
-            m2.setAttribute('value',document.getElementById("endTime").value);
+            m2.setAttribute('name', 'end'+x);
+            m2.setAttribute('value',document.getElementById("endTime"+x).value);
             m2.readOnly=true;
-            cell3.innerHTML = document.getElementById("endTime").value;
+            cell3.innerHTML = document.getElementById("endTime"+x).value;
             cell3.appendChild(m2);
 
         }
 
         function submitAllForms(){
-            var av=document.getElementsByName("day");
             var addon="b";
-            for (e = 0; e < av.length; e++)
+
+            if(${scheduleOption}=="0")
             {
-                if (av[e].checked == true)
+                addon+="0;"
+                var av=document.getElementsByName("day");
+
+                for (e = 0; e < av.length; e++)
                 {
-                    addon +="1";
+                    if (av[e].checked == true)
+                    {
+                        addon +="1";
+                    }
+                    else{
+                        addon += "0";
+                    }
                 }
-                else{
-                    addon += "0";
+                addon +=";";
+                var avS=document.getElementsByName("start0");
+                var avE=document.getElementsByName("end0");
+
+                for (e = 0; e < avS.length; e++)
+                {
+                    if(ee==0){
+                        addon +=avS[e].value + "-" + avE[e].value;
+                    }else{
+                        addon +=","+avS[e].value + "-" + avE[e].value;
+                    }
                 }
-            }
+            } else{
+                addon+="1;"
+                var avS;
+                var avE;
+                for (e = 1; e < 8; e++){
+                    avS=document.getElementsByName("start"+e);
+                    avE=document.getElementsByName("end"+e);
+                    for (ee = 0; ee < avS.length; ee++)
+                    {
+                        if(ee==0){
+                            addon +=avS[ee].value + "-" + avE[ee].value;
+                        }else{
+                            addon +=","+avS[ee].value + "-" + avE[ee].value;
+                        }
+                    }
+                    if(e!=7){
+                        addon+=";";
+                    }
 
-            var avS=document.getElementsByName("start");
-            var avE=document.getElementsByName("end");
-
-            for (e = 0; e < avS.length; e++)
-            {
-               addon +=";" + avS[e].value + "-" + avE[e].value;
+                }
             }
 
             document.getElementById("endPointId").value="<%=request.getParameter("id")%>";
@@ -74,14 +104,23 @@
 
         function load(){
 
-            var av=document.getElementsByName("day");
+            if(${scheduleOption}=="0"){
 
-            <c:forEach items="${daySche}" var="dayS" varStatus="counter">
-            var avx=${dayS};
-            if(avx!="0"){
-                av["${counter.index}"].checked=true;
+                document.getElementById("advanceScheduleId").style.display="none";
+                var av=document.getElementsByName("day");
+
+                <c:forEach items="${daySche}" var="dayS" varStatus="counter">
+                var avx=${dayS};
+                if(avx!="0"){
+                    av["${counter.index}"].checked=true;
+                }
+                </c:forEach>
+
+            }else{
+                document.getElementById("normalScheduleId").style.display="none";
             }
-            </c:forEach>
+
+
 
             var sts=${endPoint.currentStatus};
             if(sts=="1"){
@@ -326,27 +365,27 @@
 
 
         </div>
-        <div id="normalScheduleId"  style="display: none;">
+        <div id="normalScheduleId"  >
             <div class="col-sm-7">
 
                 <div class="thumbnail" style="padding-top: 0;">
 
                     <div class="form-group ">
-                        <label class="control-label col-md-1" for="startTime">Start</label>
+                        <label class="control-label col-md-1" for="startTime0">Start</label>
 
                         <div class="col-sm-3">
                             <div class="input-group clockpicker">
-                                <input type="text" id="startTime" class="form-control" value="09:30">
+                                <input type="text" id="startTime0" class="form-control" value="09:30">
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-time"></span>
                         </span>
                             </div>
                         </div>
-                        <label class="control-label col-md-1" for="endTime">Stop</label>
+                        <label class="control-label col-md-1" for="endTime0">Stop</label>
 
                         <div class="col-sm-3">
                             <div class="input-group clockpicker">
-                                <input type="text" id="endTime" class="form-control" value="09:30">
+                                <input type="text" id="endTime0" class="form-control" value="09:30">
 			                <span class="input-group-addon">
 				            <span class="glyphicon glyphicon-time"></span>
 			            </span>
@@ -354,7 +393,7 @@
                         </div>
 
                         <div class="col-sm-2">
-                            <button type="button" onclick="addSchedule()" class="btn btn-default col-sm-offset-2">Add
+                            <button type="button" onclick="addSchedule('0')" class="btn btn-default col-sm-offset-2">Add
                                 this
                                 new
                                 interval
@@ -365,20 +404,20 @@
 
 
                 <form id="timeSchedule" action="updateSchedule" method="post">
-                    <table class="table table-hover col-sm-7" id="scheduleTable">
+                    <table class="table table-hover col-sm-7" id="scheduleTable0">
                         <tbody>
-                        <c:forEach items="${schedules}" var="schedule">
+                        <c:forEach items="${schedules0}" var="schedule">
                             <tr>
                                 <td>
                                     <c:out value="${schedule.from}"/>
-                                    <input type="hidden" name="start"
+                                    <input type="hidden" name="start0"
                                            value='<c:out value="${schedule.from}"/>' readonly></td>
                                 <td>
 
                                 </td>
                                 <td>
                                     <c:out value="${schedule.to}"/>
-                                    <input type="hidden" name="end"
+                                    <input type="hidden" name="end0"
                                            value='<c:out value="${schedule.to}"/>' readonly>
                                 </td>
                             </tr>
@@ -405,55 +444,78 @@
         </div>
         <div id="advanceScheduleId">
             <div class="panel-group" id="accordion">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseSun">
-                                Sun Day
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseSun" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                            <div class="thumbnail" style="padding-top: 0;">
+                <c:forEach items="${schedulesList}" var="schedules" varStatus="counter">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse<c:out value="${counter.count}"/>">
+                                    <c:out value="${schedules.day}"/>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse<c:out value="${counter.count}"/>" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <div class="thumbnail" style="padding-top: 0;">
 
-                                <div class="form-group ">
-                                    <label class="control-label col-md-1" for="startTime">Start</label>
+                                    <div class="form-group ">
+                                        <label class="control-label col-md-1" for="startTime<c:out value="${counter.count}"/>">Start</label>
 
-                                    <div class="col-sm-3">
-                                        <div class="input-group clockpicker">
-                                            <input type="text" id="startTimeSun" class="form-control" value="09:30">
-                                            <span class="input-group-addon">
-                                                <span class="glyphicon glyphicon-time"></span>
-                                            </span>
+                                        <div class="col-sm-3">
+                                            <div class="input-group clockpicker">
+                                                <input type="text" id="startTime<c:out value="${counter.count}"/>" class="form-control" value="09:30">
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-time"></span>
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <label class="control-label col-md-1" for="endTime">Stop</label>
+                                        <label class="control-label col-md-1" for="endTime<c:out value="${counter.count}"/>">Stop</label>
 
-                                    <div class="col-sm-3">
-                                        <div class="input-group clockpicker">
-                                            <input type="text" id="endTimeSun" class="form-control" value="09:30">
-                                            <span class="input-group-addon">
-                                                <span class="glyphicon glyphicon-time"></span>
-			                                </span>
+                                        <div class="col-sm-3">
+                                            <div class="input-group clockpicker">
+                                                <input type="text" id="endTime<c:out value="${counter.count}"/>" class="form-control" value="09:30">
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-time"></span>
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-sm-2">
-                                        <button type="button" onclick="addSchedule()"
-                                                class="btn btn-default col-sm-offset-2">Add
-                                            this
-                                            new
-                                            interval
-                                        </button>
+                                        <div class="col-sm-2">
+                                            <button type="button" onclick="addSchedule('<c:out value="${counter.count}"/>')"
+                                                    class="btn btn-default col-sm-offset-2">Add this new interval
+                                            </button>
+                                        </div>
+
                                     </div>
                                 </div>
-                            </div>
 
+                                <table class="table table-hover col-sm-7" id="scheduleTable<c:out value="${counter.count}"/>">
+                                    <tbody>
+                                    <c:forEach items="${schedules.daySchedule}" var="schedule">
+                                        <tr>
+                                            <td>
+                                                <c:out value="${schedule.from}"/>
+                                                <input type="hidden" name="start<c:out value="${counter.count}"/>"
+                                                       value='<c:out value="${schedule.from}"/>' readonly></td>
+                                            <td>
+
+                                            </td>
+                                            <td>
+                                                <c:out value="${schedule.to}"/>
+                                                <input type="hidden" name="end<c:out value="${counter.count}"/>"
+                                                       value='<c:out value="${schedule.to}"/>' readonly>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
+
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="panel panel-default">
+
+                </c:forEach>
+
+               <%-- <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseMon">
@@ -466,7 +528,7 @@
                             Mon Day
                         </div>
                     </div>
-                </div>
+                </div>--%>
             </div>
         </div>
 

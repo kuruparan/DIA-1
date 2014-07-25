@@ -17,12 +17,18 @@
 
 
     <script type="text/javascript">
+
+        function deleteSchedule(x,y){
+            var i = y.parentNode.parentNode.rowIndex;
+            document.getElementById("scheduleTable"+x).deleteRow(i);
+        }
         function addSchedule(x) {
             var table = document.getElementById("scheduleTable"+x);
             var row = table.insertRow(0);
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
             var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
             cell2.innerHTML = "";
 
 
@@ -42,12 +48,21 @@
             cell3.innerHTML = document.getElementById("endTime"+x).value;
             cell3.appendChild(m2);
 
+            var b = document.createElement("input");
+            b.setAttribute('onclick',"deleteSchedule("+x+",this)");
+            b.setAttribute('type', 'button');
+            b.setAttribute('value',"Delete");
+            b.setAttribute('class',"btn btn-default col-sm-offset-2")
+            cell4.appendChild(b);
+
+
+
         }
 
         function submitAllForms(){
             var addon="b";
 
-            if(${scheduleOption}=="0")
+            if(document.getElementById("scheduleswitch").value=="Normal Schedule")
             {
                 addon+="0;"
                 var av=document.getElementsByName("day");
@@ -68,7 +83,7 @@
 
                 for (e = 0; e < avS.length; e++)
                 {
-                    if(ee==0){
+                    if(e==0){
                         addon +=avS[e].value + "-" + avE[e].value;
                     }else{
                         addon +=","+avS[e].value + "-" + avE[e].value;
@@ -196,6 +211,7 @@
                             var cell1 = row.insertCell(0);
                             var cell2 = row.insertCell(1);
                             var cell3 = row.insertCell(2);
+                            var cell4 = row.insertCell(3);
                             cell2.innerHTML = "";
 
 
@@ -214,6 +230,13 @@
                             m2.readOnly=true;
                             cell3.innerHTML = avE[j].value;
                             cell3.appendChild(m2);
+
+                            var b = document.createElement("input");
+                            b.setAttribute('onclick',"deleteSchedule("+e+",this)");
+                            b.setAttribute('type', 'button');
+                            b.setAttribute('value',"Delete");
+                            b.setAttribute('class',"btn btn-default col-sm-offset-2")
+                            cell4.appendChild(b);
                         }
                     }
                 }
@@ -482,6 +505,10 @@
                                     <input type="hidden" name="end0"
                                            value='<c:out value="${schedule.to}"/>' readonly>
                                 </td>
+                                <td>
+                                    <button type="button" onclick="deleteSchedule('0',this)" class="btn btn-default col-sm-offset-2">Delete</button>
+
+                                </td>
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -566,6 +593,10 @@
                                                 <c:out value="${schedule.to}"/>
                                                 <input type="hidden" name="end<c:out value="${counter.count}"/>"
                                                        value='<c:out value="${schedule.to}"/>' readonly>
+                                            </td>
+                                            <td>
+                                                <button type="button" onclick="deleteSchedule('<c:out value="${counter.count}"/>',this)" class="btn btn-default col-sm-offset-2">Delete</button>
+
                                             </td>
                                         </tr>
                                     </c:forEach>

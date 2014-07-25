@@ -103,9 +103,9 @@
         }
 
         function load(){
-
+            var elem=document.getElementById("scheduleswitch");
             if(${scheduleOption}=="0"){
-
+                elem.value="Normal Schedule";
                 document.getElementById("advanceScheduleId").style.display="none";
                 var av=document.getElementsByName("day");
 
@@ -117,6 +117,7 @@
                 </c:forEach>
 
             }else{
+                elem.value="Advance Schedule"
                 document.getElementById("normalScheduleId").style.display="none";
             }
 
@@ -171,6 +172,63 @@
             xhr = new XMLHttpRequest();
             xhr.open('GET',url, true);
             xhr.send();
+        }
+        function clickChangeSchedule(){
+
+            var elem=document.getElementById("scheduleswitch");
+            if(elem.value=="Normal Schedule"){
+                document.getElementById("normalScheduleId").style.display="none";
+                document.getElementById("advanceScheduleId").style.display="inline";
+                elem.value="Advance Schedule";
+                var av=document.getElementsByName("day");
+
+                var avS=document.getElementsByName("start0");
+                var avE=document.getElementsByName("end0");
+
+                for (e = 1; e < av.length+1; e++)
+                {
+                    if (av[e-1].checked == true)
+                    {
+                        var table = document.getElementById("scheduleTable"+e);
+                        for(j=0;j<avS.length;j++){
+
+                            var row = table.insertRow(0);
+                            var cell1 = row.insertCell(0);
+                            var cell2 = row.insertCell(1);
+                            var cell3 = row.insertCell(2);
+                            cell2.innerHTML = "";
+
+
+                            var m1 = document.createElement("input");
+                            m1.setAttribute('type', 'hidden');
+                            m1.setAttribute('name', 'start'+e);
+                            m1.setAttribute('value',avS[j].value);
+                            m1.readOnly = true;
+                            cell1.innerHTML = avS[j].value;
+                            cell1.appendChild(m1);
+
+                            var m2 = document.createElement("input");
+                            m2.setAttribute('type', 'hidden');
+                            m2.setAttribute('name', 'end'+e);
+                            m2.setAttribute('value',avE[j].value);
+                            m2.readOnly=true;
+                            cell3.innerHTML = avE[j].value;
+                            cell3.appendChild(m2);
+                        }
+                    }
+                }
+                <%--<c:set var="scheduleOption"  value="1"/>--%>
+
+            }else{
+                /*document.getElementById("advanceScheduleId").style.display="none";
+                document.getElementById("normalScheduleId").style.display="inline";
+                elem.value="Normal Schedule";*/
+                <%--<c:set var="scheduleOption"  value="0"/>--%>
+                document.getElementById("endPointId").value="<%=request.getParameter("id")%>";
+                document.getElementById("scheduleId").value="0;0000000;";
+                document.getElementById("timeSchedule").submit();
+            }
+
         }
 
         function changeMode(x){
@@ -361,7 +419,11 @@
             </div>
 
 
-            <div class="col-sm-1 btn btn-default pull-right"><span class="glyphicon glyphicon-refresh ">  </span></div>
+            <div class="col-sm-2 btn btn-default pull-right">
+                <input id="scheduleswitch" onclick="clickChangeSchedule()"
+                class="btn branding-background" type="button">
+                </input>
+            </div>
 
 
         </div>
@@ -432,13 +494,14 @@
 
             <div class="thumbnail col-sm-3 col-sm-offset-2">Schedule Active Days
                 <form id="daySchedule">
+                    <input type="checkbox" name="day" value="tu">Sunday<br/>
                     <input type="checkbox" name="day" value="mo">Monday <br/>
                     <input type="checkbox" name="day" value="tu">Tuesday <br/>
                     <input type="checkbox" name="day" value="tu">Wednesday<br/>
                     <input type="checkbox" name="day" value="tu">Thursday<br/>
                     <input type="checkbox" name="day" value="tu">Friday<br/>
                     <input type="checkbox" name="day" value="tu">Saturday<br/>
-                    <input type="checkbox" name="day" value="tu">Sunday<br/>
+
                 </form>
             </div>
         </div>
@@ -564,10 +627,6 @@
                         <button type="button" class="btn btn-default col-sm-offset-7" data-dismiss="modal">Cancel</button>
                         <button type="button" class="btn btn-success" data-dismiss="modal" onclick="submitAllForms()">Send</button>
                     </div>
-
-
-
-
                 </div>
             </div>
         </div>

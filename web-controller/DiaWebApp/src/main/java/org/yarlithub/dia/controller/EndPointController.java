@@ -76,6 +76,11 @@ public class EndPointController {
 
                 model.addAttribute("schedules0", schedules);
                 model.addAttribute("daySche", daySche);
+                List<DaySchedule> schedulesList=new ArrayList<DaySchedule>();
+                for(int k=1;k<8;k++){
+                    schedulesList.add(new DaySchedule( new ArrayList<Schedule>(),k));
+                }
+                model.addAttribute("schedulesList", schedulesList);
             }else{
                 String[] eachDaySchedules= scheduleString.split(";",-1);
 

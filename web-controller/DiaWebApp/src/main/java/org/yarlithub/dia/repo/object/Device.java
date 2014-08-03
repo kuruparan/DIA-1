@@ -15,13 +15,16 @@ public class Device {
     private String deviceName;
     private String pin;
     private String deviceMask;
+    private int gardenId;
+    private List<EndPoint> endPointList = new ArrayList<>();
+
+    //TODO: Delete
     private String sensorData;
     private String schedule;
-    private int gardenId;
     private int operationMode;
     private int operationType;
     private int currentStatus;
-    private List<EndPoint> endPointList = new ArrayList<>();
+
 
     public List<EndPoint> getEndPointList() {
         return endPointList;

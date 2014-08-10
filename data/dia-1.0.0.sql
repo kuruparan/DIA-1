@@ -70,6 +70,8 @@ DROP TABLE IF EXISTS `dia`.`end_point` ;
 CREATE TABLE IF NOT EXISTS `dia`.`end_point` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `device_id` INT NOT NULL,
+  `end_point_no` INT NOT NULL,
+  `end_point_name` VARCHAR(45) NULL,
   `operation_mode` INT NOT NULL DEFAULT 0,
   `operation_type` INT NOT NULL DEFAULT 0,
   `schedule` VARCHAR(1000) NULL,
@@ -104,7 +106,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `dia`;
-INSERT INTO `dia`.`end_point` (`id`, `device_id`, `operation_mode`, `operation_type`, `schedule`, `current_status`, `sensor_data`) VALUES (1, 1, 0, 0, NULL, NULL, NULL);
+INSERT INTO `dia`.`end_point` (`id`, `device_id`, `end_point_no`, `end_point_name`, `operation_mode`, `operation_type`, `schedule`, `current_status`, `sensor_data`) VALUES (1, 1, NULL, NULL, 0, 0, NULL, NULL, NULL);
 
 COMMIT;
 

@@ -17,62 +17,126 @@
 
 
     <script type="text/javascript">
-        function addSchedule() {
-            var table = document.getElementById("scheduleTable");
+
+        function deleteSchedule(x,y){
+            var i = y.parentNode.parentNode.rowIndex;
+            document.getElementById("scheduleTable"+x).deleteRow(i);
+        }
+        function addSchedule(x) {
+            var table = document.getElementById("scheduleTable"+x);
             var row = table.insertRow(0);
             var cell1 = row.insertCell(0);
             var cell2 = row.insertCell(1);
             var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
             cell2.innerHTML = "";
 
 
             var m1 = document.createElement("input");
             m1.setAttribute('type', 'hidden');
-            m1.setAttribute('name', 'start');
-            m1.setAttribute('value', "start:" + document.getElementById("startTime").value);
+            m1.setAttribute('name', 'start'+x);
+            m1.setAttribute('value',document.getElementById("startTime"+x).value);
             m1.readOnly = true;
-            cell1.innerHTML = document.getElementById("startTime").value;
+            cell1.innerHTML = document.getElementById("startTime"+x).value;
             cell1.appendChild(m1);
 
             var m2 = document.createElement("input");
             m2.setAttribute('type', 'hidden');
-            m2.setAttribute('name', 'end');
-            m2.setAttribute('value', "end:"+document.getElementById("endTime").value);
+            m2.setAttribute('name', 'end'+x);
+            m2.setAttribute('value',document.getElementById("endTime"+x).value);
             m2.readOnly=true;
-            cell3.innerHTML = document.getElementById("endTime").value;
+            cell3.innerHTML = document.getElementById("endTime"+x).value;
             cell3.appendChild(m2);
+
+            var b = document.createElement("input");
+            b.setAttribute('onclick',"deleteSchedule("+x+",this)");
+            b.setAttribute('type', 'button');
+            b.setAttribute('value',"Delete");
+            b.setAttribute('class',"btn btn-default col-sm-offset-2")
+            cell4.appendChild(b);
+
+
 
         }
 
         function submitAllForms(){
-            var av=document.getElementsByName("day");
             var addon="b";
-            for (e = 0; e < av.length; e++)
+
+            if(document.getElementById("scheduleswitch").value=="Normal Schedule")
             {
-                if (av[e].checked == true)
+                addon+="0;"
+                var av=document.getElementsByName("day");
+
+                for (e = 0; e < av.length; e++)
                 {
-                    addon +="1";
+                    if (av[e].checked == true)
+                    {
+                        addon +="1";
+                    }
+                    else{
+                        addon += "0";
+                    }
                 }
-                else{
-                    addon += "0";
+                addon +=";";
+                var avS=document.getElementsByName("start0");
+                var avE=document.getElementsByName("end0");
+
+                for (e = 0; e < avS.length; e++)
+                {
+                    if(e==0){
+                        addon +=avS[e].value + "-" + avE[e].value;
+                    }else{
+                        addon +=","+avS[e].value + "-" + avE[e].value;
+                    }
+                }
+            } else{
+                addon+="1;"
+                var avS;
+                var avE;
+                for (e = 1; e < 8; e++){
+                    avS=document.getElementsByName("start"+e);
+                    avE=document.getElementsByName("end"+e);
+                    for (ee = 0; ee < avS.length; ee++)
+                    {
+                        if(ee==0){
+                            addon +=avS[ee].value + "-" + avE[ee].value;
+                        }else{
+                            addon +=","+avS[ee].value + "-" + avE[ee].value;
+                        }
+                    }
+                    if(e!=7){
+                        addon+=";";
+                    }
+
                 }
             }
+
             document.getElementById("endPointId").value="<%=request.getParameter("id")%>";
-            document.getElementById("daysId").value=addon;
+            document.getElementById("scheduleId").value=addon;
             document.getElementById("timeSchedule").submit();
 
         }
 
         function load(){
+            var elem=document.getElementById("scheduleswitch");
+            if(${scheduleOption}=="0"){
+                elem.value="Normal Schedule";
+                document.getElementById("advanceScheduleId").style.display="none";
+                var av=document.getElementsByName("day");
 
-            var av=document.getElementsByName("day");
+                <c:forEach items="${daySche}" var="dayS" varStatus="counter">
+                var avx=${dayS};
+                if(avx!="0"){
+                    av["${counter.index}"].checked=true;
+                }
+                </c:forEach>
 
-            <c:forEach items="${daySche}" var="dayS" varStatus="counter">
-            var avx=${dayS};
-            if(avx!="0"){
-                av["${counter.index}"].checked=true;
+            }else{
+                elem.value="Advance Schedule"
+                document.getElementById("normalScheduleId").style.display="none";
             }
-            </c:forEach>
+
+
 
             var sts=${endPoint.currentStatus};
             if(sts=="1"){
@@ -123,6 +187,71 @@
             xhr = new XMLHttpRequest();
             xhr.open('GET',url, true);
             xhr.send();
+        }
+        function clickChangeSchedule(){
+
+            var elem=document.getElementById("scheduleswitch");
+            if(elem.value=="Normal Schedule"){
+                document.getElementById("normalScheduleId").style.display="none";
+                document.getElementById("advanceScheduleId").style.display="inline";
+                elem.value="Advance Schedule";
+                var av=document.getElementsByName("day");
+
+                var avS=document.getElementsByName("start0");
+                var avE=document.getElementsByName("end0");
+
+                for (e = 1; e < av.length+1; e++)
+                {
+                    if (av[e-1].checked == true)
+                    {
+                        var table = document.getElementById("scheduleTable"+e);
+                        for(j=0;j<avS.length;j++){
+
+                            var row = table.insertRow(0);
+                            var cell1 = row.insertCell(0);
+                            var cell2 = row.insertCell(1);
+                            var cell3 = row.insertCell(2);
+                            var cell4 = row.insertCell(3);
+                            cell2.innerHTML = "";
+
+
+                            var m1 = document.createElement("input");
+                            m1.setAttribute('type', 'hidden');
+                            m1.setAttribute('name', 'start'+e);
+                            m1.setAttribute('value',avS[j].value);
+                            m1.readOnly = true;
+                            cell1.innerHTML = avS[j].value;
+                            cell1.appendChild(m1);
+
+                            var m2 = document.createElement("input");
+                            m2.setAttribute('type', 'hidden');
+                            m2.setAttribute('name', 'end'+e);
+                            m2.setAttribute('value',avE[j].value);
+                            m2.readOnly=true;
+                            cell3.innerHTML = avE[j].value;
+                            cell3.appendChild(m2);
+
+                            var b = document.createElement("input");
+                            b.setAttribute('onclick',"deleteSchedule("+e+",this)");
+                            b.setAttribute('type', 'button');
+                            b.setAttribute('value',"Delete");
+                            b.setAttribute('class',"btn btn-default col-sm-offset-2")
+                            cell4.appendChild(b);
+                        }
+                    }
+                }
+                <%--<c:set var="scheduleOption"  value="1"/>--%>
+
+            }else{
+                /*document.getElementById("advanceScheduleId").style.display="none";
+                document.getElementById("normalScheduleId").style.display="inline";
+                elem.value="Normal Schedule";*/
+                <%--<c:set var="scheduleOption"  value="0"/>--%>
+                document.getElementById("endPointId").value="<%=request.getParameter("id")%>";
+                document.getElementById("scheduleId").value="0;0000000;";
+                document.getElementById("timeSchedule").submit();
+            }
+
         }
 
         function changeMode(x){
@@ -304,7 +433,6 @@
     <div class="thumbnail col-sm-12">
 
 
-
         <div class="row">
             <div class="lead col-sm-3 col-sm-offset-3">Device Schedule</div>
             <div class="onoffswitch col-sm-2 ">
@@ -314,100 +442,197 @@
             </div>
 
 
-            <div class="col-sm-1 btn btn-default pull-right"><span class="glyphicon glyphicon-refresh ">  </span></div>
-
-
-        </div>
-        <div class="col-sm-7">
-
-            <div class="thumbnail" style="padding-top: 0;">
-
-                <div class="form-group ">
-                    <label class="control-label col-md-1" for="startTime">Start</label>
-
-                    <div class="col-sm-3">
-                        <div class="input-group clockpicker">
-                            <input type="text" id="startTime" class="form-control" value="09:30">
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-time"></span>
-                        </span>
-                        </div>
-                    </div>
-                    <label class="control-label col-md-1" for="endTime">Stop</label>
-
-                    <div class="col-sm-3">
-                        <div class="input-group clockpicker">
-                            <input type="text" id="endTime" class="form-control" value="09:30">
-			                <span class="input-group-addon">
-				            <span class="glyphicon glyphicon-time"></span>
-			            </span>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-2">
-                        <button type="button" onclick="addSchedule()" class="btn btn-default col-sm-offset-2">Add this
-                            new
-                            interval
-                        </button>
-                    </div>
-                </div>
+            <div class="col-sm-2 btn btn-default pull-right">
+                <input id="scheduleswitch" onclick="clickChangeSchedule()"
+                class="btn branding-background" type="button">
+                </input>
             </div>
 
 
-            <form id="timeSchedule" action="updateSchedule" method="post">
-                <table class="table table-hover col-sm-7" id="scheduleTable">
-                    <tbody>
-                    <c:forEach items="${schedules}" var="schedule">
-                        <tr>
-                            <td>
-                                <c:out value="${schedule.from}"/>
-                                <input type="hidden" name="start"
-                                       value='start:<c:out value="${schedule.from}"/>' readonly></td>
-                            <td>
+        </div>
+        <div id="normalScheduleId"  >
+            <div class="col-sm-7">
 
-                            </td>
-                            <td>
-                                <c:out value="${schedule.to}"/>
-                                <input type="hidden" name="end"
-                                       value='end:<c:out value="${schedule.to}"/>' readonly>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-                <input type="hidden" name="days" id="daysId"/>
-                <input type="hidden" name="id" id="endPointId"/>
-            </form>
+                <div class="thumbnail" style="padding-top: 0;">
 
+                    <div class="form-group ">
+                        <label class="control-label col-md-1" for="startTime0">Start</label>
+
+                        <div class="col-sm-3">
+                            <div class="input-group clockpicker">
+                                <input type="text" id="startTime0" class="form-control" value="09:30">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-time"></span>
+                        </span>
+                            </div>
+                        </div>
+                        <label class="control-label col-md-1" for="endTime0">Stop</label>
+
+                        <div class="col-sm-3">
+                            <div class="input-group clockpicker">
+                                <input type="text" id="endTime0" class="form-control" value="09:30">
+			                <span class="input-group-addon">
+				            <span class="glyphicon glyphicon-time"></span>
+			            </span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <button type="button" onclick="addSchedule('0')" class="btn btn-default col-sm-offset-2">Add
+                                this
+                                new
+                                interval
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <form id="timeSchedule" action="updateSchedule" method="post">
+                    <table class="table table-hover col-sm-7" id="scheduleTable0">
+                        <tbody>
+                        <c:forEach items="${schedules0}" var="schedule">
+                            <tr>
+                                <td>
+                                    <c:out value="${schedule.from}"/>
+                                    <input type="hidden" name="start0"
+                                           value='<c:out value="${schedule.from}"/>' readonly></td>
+                                <td>
+
+                                </td>
+                                <td>
+                                    <c:out value="${schedule.to}"/>
+                                    <input type="hidden" name="end0"
+                                           value='<c:out value="${schedule.to}"/>' readonly>
+                                </td>
+                                <td>
+                                    <button type="button" onclick="deleteSchedule('0',this)" class="btn btn-default col-sm-offset-2">Delete</button>
+
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                    <input type="hidden" name="schedule" id="scheduleId"/>
+                    <input type="hidden" name="id" id="endPointId"/>
+                </form>
+
+            </div>
+
+            <div class="thumbnail col-sm-3 col-sm-offset-2">Schedule Active Days
+                <form id="daySchedule">
+                    <input type="checkbox" name="day" value="tu">Sunday<br/>
+                    <input type="checkbox" name="day" value="mo">Monday <br/>
+                    <input type="checkbox" name="day" value="tu">Tuesday <br/>
+                    <input type="checkbox" name="day" value="tu">Wednesday<br/>
+                    <input type="checkbox" name="day" value="tu">Thursday<br/>
+                    <input type="checkbox" name="day" value="tu">Friday<br/>
+                    <input type="checkbox" name="day" value="tu">Saturday<br/>
+
+                </form>
+            </div>
+        </div>
+        <div id="advanceScheduleId">
+            <div class="panel-group" id="accordion">
+                <c:forEach items="${schedulesList}" var="schedules" varStatus="counter">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse<c:out value="${counter.count}"/>">
+                                    <c:out value="${schedules.day}"/>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse<c:out value="${counter.count}"/>" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <div class="thumbnail" style="padding-top: 0;">
+
+                                    <div class="form-group ">
+                                        <label class="control-label col-md-1" for="startTime<c:out value="${counter.count}"/>">Start</label>
+
+                                        <div class="col-sm-3">
+                                            <div class="input-group clockpicker">
+                                                <input type="text" id="startTime<c:out value="${counter.count}"/>" class="form-control" value="09:30">
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-time"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <label class="control-label col-md-1" for="endTime<c:out value="${counter.count}"/>">Stop</label>
+
+                                        <div class="col-sm-3">
+                                            <div class="input-group clockpicker">
+                                                <input type="text" id="endTime<c:out value="${counter.count}"/>" class="form-control" value="09:30">
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-time"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-2">
+                                            <button type="button" onclick="addSchedule('<c:out value="${counter.count}"/>')"
+                                                    class="btn btn-default col-sm-offset-2">Add this new interval
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <table class="table table-hover col-sm-7" id="scheduleTable<c:out value="${counter.count}"/>">
+                                    <tbody>
+                                    <c:forEach items="${schedules.daySchedule}" var="schedule">
+                                        <tr>
+                                            <td>
+                                                <c:out value="${schedule.from}"/>
+                                                <input type="hidden" name="start<c:out value="${counter.count}"/>"
+                                                       value='<c:out value="${schedule.from}"/>' readonly></td>
+                                            <td>
+
+                                            </td>
+                                            <td>
+                                                <c:out value="${schedule.to}"/>
+                                                <input type="hidden" name="end<c:out value="${counter.count}"/>"
+                                                       value='<c:out value="${schedule.to}"/>' readonly>
+                                            </td>
+                                            <td>
+                                                <button type="button" onclick="deleteSchedule('<c:out value="${counter.count}"/>',this)" class="btn btn-default col-sm-offset-2">Delete</button>
+
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </c:forEach>
+
+               <%-- <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseMon">
+                                Mon Day
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseMon" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            Mon Day
+                        </div>
+                    </div>
+                </div>--%>
+            </div>
         </div>
 
-        <div class="thumbnail col-sm-3 col-sm-offset-2">Schedule Active Days
-            <form id="daySchedule">
-                <input type="checkbox" name="day" value="mo">Monday <br/>
-                <input type="checkbox" name="day" value="tu">Tuesday <br/>
-                <input type="checkbox" name="day" value="tu">Wednesday<br/>
-                <input type="checkbox" name="day" value="tu">Thursday<br/>
-                <input type="checkbox" name="day" value="tu">Friday<br/>
-                <input type="checkbox" name="day" value="tu">Saturday<br/>
-                <input type="checkbox" name="day" value="tu">Sunday<br/>
-            </form>
-        </div>
 
-        <button type="clear" onclick="reloadPage()" class="btn btn-lg btn-default  col-sm-offset-3">Cancel and Reset Default</button>
+        <button type="clear" onclick="reloadPage()" class="btn btn-lg btn-default  col-sm-offset-3">Cancel and Reset
+            Default
+        </button>
         <%--<button type="button" onclick="submitAllForm()" class="btn btn-lg btn-success">Update and Activate this--%>
         <%--Schedule--%>
         <%--</button>--%>
-
-
-
-
-
-
-
-
-
-
-
 
 
         <!-- Button trigger modal -->
@@ -433,10 +658,6 @@
                         <button type="button" class="btn btn-default col-sm-offset-7" data-dismiss="modal">Cancel</button>
                         <button type="button" class="btn btn-success" data-dismiss="modal" onclick="submitAllForms()">Send</button>
                     </div>
-
-
-
-
                 </div>
             </div>
         </div>

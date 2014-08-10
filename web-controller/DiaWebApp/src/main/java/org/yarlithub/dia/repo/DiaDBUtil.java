@@ -39,6 +39,7 @@ public class DiaDBUtil {
                 device.setPin(resultSet.getString("pin"));
                 device.setDeviceMask(resultSet.getString("device_mask"));
                 device.setGardenId(resultSet.getInt("garden_id"));
+
                 }
             resultSet.close();
             con.close();

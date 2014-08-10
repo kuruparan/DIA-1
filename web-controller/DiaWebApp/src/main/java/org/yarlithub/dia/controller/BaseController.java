@@ -22,7 +22,7 @@ public class BaseController {
                  @RequestParam(value = "logout", required = false) String logout) {
 
         if (error != null) {
-            model.addAttribute("error", "Invalid username and password!");
+            model.addAttribute("error", "Invalid username or password!");
         }
 
         if (logout != null) {

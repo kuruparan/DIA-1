@@ -62,7 +62,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-2 col-sm-offset-10">
-            <form action="goToAddDevice" method="get">
+            <form action="addDevice" method="get">
                 <!-- <input type="hidden" name="gardenId" value="<%request.getParameter("gardenId");%>"/>-->
                 <button style="margin:5%" type="submit" class="btn btn-lg btn-success col-sm-12">Add My Device
                 </button>

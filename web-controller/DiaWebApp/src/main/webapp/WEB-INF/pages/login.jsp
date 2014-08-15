@@ -63,7 +63,7 @@
                 </div>
                 <div class="col-sm-5">
                     <c:if test="${not empty error}">
-                        <div class="error">${error}</div>
+                        <div class="error"><p style="color:red">${error}</p></div>
                     </c:if>
                     <c:if test="${not empty msg}">
                         <div class="msg">${msg}</div>
